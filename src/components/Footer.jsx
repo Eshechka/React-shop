@@ -8,7 +8,7 @@ export function Footer() {
             target="_blabk"
             rel="noopener noreferrer nofollow"
             className="grey-text text-lighten-4 right"
-            href="https://github.com/Eshechka/React-Shop.git"
+            href="https://github.com/Eshechka/React-shop.git"
           >
             Github repository
           </a>

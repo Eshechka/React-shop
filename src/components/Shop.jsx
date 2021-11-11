@@ -8,6 +8,7 @@ export function Shop() {
   const [goods, setGoods] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [order, setOrder] = useState([]);
+  const [isShowCartList, setIsShowCartList] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -18,10 +19,10 @@ export function Shop() {
       .then((response) => response.json())
       .then((data) => {
         data.shop && setGoods(data.shop);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 2000);
-        // setIsLoading(false);
+        // setTimeout(() => {
+        //   setIsLoading(false);
+        // }, 2000);
+        setIsLoading(false);
       })
       .catch((error) => {
         setIsLoading(false);
@@ -29,28 +30,74 @@ export function Shop() {
       });
   }, []);
 
+  useEffect(() => {
+    if (!order.length) {
+      setIsShowCartList(false);
+    }
+  }, [order]);
+
   function clickBuyGood(good) {
     let isGoodInOrder = order.find(
       (goodItem) => goodItem.mainId === good.mainId
     );
 
-    console.log(isGoodInOrder);
+    // console.log(isGoodInOrder);
     if (isGoodInOrder) {
       isGoodInOrder.quantity = isGoodInOrder.quantity + 1;
-      setOrder([
-        ...order,
-        // ...order.filter((goodItem) => goodItem.mainId !== good.mainId),
-        // { ...isGoodInOrder, quantity: isGoodInOrder.quantity + 1 },
-      ]);
+      setOrder([...order]);
     } else {
       setOrder([...order, { ...good, quantity: 1 }]);
     }
   }
 
+  function toggleShowCart(event) {
+    if (!isShowCartList) {
+      if (order.length) {
+        setIsShowCartList(true);
+      }
+    } else {
+      const targetElement = event.target;
+      const isCloseClicked = !!(
+        targetElement.dataset.cartClose ||
+        targetElement.closest('[data-cart-close="true"]')
+      );
+      if (isCloseClicked) {
+        setIsShowCartList(false);
+      }
+    }
+  }
+
+  function removeCartlistItem(idCartlistItem) {
+    const newOrder = order.filter(
+      (orderItem) => orderItem.mainId !== idCartlistItem
+    );
+    setOrder([...newOrder]);
+  }
+  function changeCatritemQuantity(idCattlistChangedItem, whatcrement) {
+    const changedOrder = order.find(
+      (orderItem) => orderItem.mainId === idCattlistChangedItem
+    );
+    if (changedOrder.mainId) {
+      if (whatcrement === "increment") {
+        changedOrder.quantity = changedOrder.quantity + 1;
+      } else if (whatcrement === "decrement") {
+        changedOrder.quantity = Math.max(changedOrder.quantity - 1, 1);
+      }
+    }
+    setOrder([...order]);
+  }
+
   return (
     <main className="content">
       <div className="container">
-        <Cart quantity={order.length} />
+        <Cart
+          quantity={order.length}
+          orderList={order}
+          isShowCartList={isShowCartList}
+          toggleShowCart={toggleShowCart}
+          removeCartlistItem={removeCartlistItem}
+          changeCatritemQuantity={changeCatritemQuantity}
+        />
         {isLoading ? (
           <div className="content__preloader">
             <Preloader />

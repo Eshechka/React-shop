@@ -1,6 +1,28 @@
+@mixin desktopHd() {
+  @media screen and (max-width: 1800px) {
+    @content;
+  }
+}
+@mixin desktop() {
+  @media screen and (max-width: 1200px) {
+    @content;
+  }
+}
+@mixin tablets() {
+  @media screen and (max-width: 768px) {
+    @content;
+  }
+}
+@mixin phones() {
+  @media screen and (max-width: 480px) {
+    @content;
+  }
+}
+
 html,
 body {
   height: 100%;
+  box-sizing: border-box;
 }
 
 body {
@@ -40,6 +62,14 @@ code {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 40px;
+    @include desktop {
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @include tablets {
+      grid-template-columns: 90%;
+      gap: 0;
+    }
   }
   &__item-image {
     background-repeat: no-repeat;
@@ -70,32 +100,113 @@ code {
   cursor: pointer;
   display: flex;
   align-items: center;
+  padding: 5px;
+
+  @include tablets {
+    right: 0.5rem;
+    top: unset;
+    bottom: 2rem;
+    border-radius: 50%;
+    padding: 26px 20px;
+    font-size: 20px;
+    width: 82px;
+  }
+
+  &__cartlist {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    width: 400px;
+
+    @include tablets {
+      top: unset;
+      bottom: 84px;
+      width: 320px;
+    }
+  }
+}
+
+.cartlist {
+  border: 1px solid #ccc;
+  cursor: auto;
+
+  &__list.collection {
+    max-height: 255px;
+    overflow-y: scroll;
+    margin: 0;
+  }
+  &__title {
+    background-color: #fff;
+    margin: 0;
+    padding: 10px;
+
+    @include tablets {
+      font-size: 18px;
+    }
+  }
+  &__item.collection-item.avatar {
+    display: flex;
+    align-items: flex-start;
+    padding-right: 10px;
+  }
+  &__item-info {
+    display: flex;
+    flex-direction: column;
+    width: 170px;
+  }
+  .collection .collection-item.avatar &__item-remove.secondary-content {
+    align-self: flex-start;
+    cursor: pointer;
+    padding: 0 2px;
+    top: 10px;
+    right: 10px;
+  }
+  &__item-quantity {
+    width: 25px;
+    text-align: center;
+
+    @include tablets {
+      font-size: 14px;
+    }
+  }
+  &__item-price {
+    padding-right: 36px;
+    width: 96px;
+    text-align: center;
+
+    @include tablets {
+      font-size: 14px;
+    }
+  }
+  &__total {
+    font-size: 30px;
+    background-color: #fff;
+    padding: 10px;
+    padding-right: 20px;
+    @include tablets {
+      font-size: 18px;
+    }
+  }
+  &__total-quantity {
+    font-size: 30px;
+
+    @include tablets {
+      font-size: 18px;
+    }
+  }
+  &__item-quantity-changer {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 @media screen and (max-width: 1200px) {
   .cart {
     right: 0.8rem;
-  }
-  .goods {
-    &__list {
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-  }
-}
-@media screen and (max-width: 768px) {
-  .cart {
-    right: 0.5rem;
-    top: unset;
-    bottom: 3rem;
-    border-radius: 50%;
-    padding: 26px 20px;
-    font-size: 20px;
-  }
-  .goods {
-    &__list {
-      grid-template-columns: 90%;
-      gap: 0;
-    }
   }
 }

@@ -3,12 +3,14 @@ import React, { useState, useEffect } from "react";
 import { Preloader } from "./Preloader";
 import { Goods } from "./Goods";
 import { Cart } from "./Cart";
+import { Alert } from "./Alert";
 
 export function Shop() {
   const [goods, setGoods] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [order, setOrder] = useState([]);
   const [isShowCartList, setIsShowCartList] = useState(false);
+  const [alertName, setAlertName] = useState("");
 
   useEffect(() => {
     setIsLoading(true);
@@ -41,13 +43,13 @@ export function Shop() {
       (goodItem) => goodItem.mainId === good.mainId
     );
 
-    // console.log(isGoodInOrder);
     if (isGoodInOrder) {
       isGoodInOrder.quantity = isGoodInOrder.quantity + 1;
       setOrder([...order]);
     } else {
       setOrder([...order, { ...good, quantity: 1 }]);
     }
+    good.displayName && setAlertName(good.displayName);
   }
 
   function toggleShowCart(event) {
@@ -73,6 +75,7 @@ export function Shop() {
     );
     setOrder([...newOrder]);
   }
+
   function changeCatritemQuantity(idCattlistChangedItem, whatcrement) {
     const changedOrder = order.find(
       (orderItem) => orderItem.mainId === idCattlistChangedItem
@@ -87,6 +90,10 @@ export function Shop() {
     setOrder([...order]);
   }
 
+  function clearNameOfAlert() {
+    setAlertName("");
+  }
+
   return (
     <main className="content">
       <div className="container">
@@ -98,6 +105,9 @@ export function Shop() {
           removeCartlistItem={removeCartlistItem}
           changeCatritemQuantity={changeCatritemQuantity}
         />
+        {alertName && (
+          <Alert name={alertName} clearNameOfAlert={clearNameOfAlert} />
+        )}
         {isLoading ? (
           <div className="content__preloader">
             <Preloader />

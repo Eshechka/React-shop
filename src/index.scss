@@ -111,6 +111,9 @@ code {
     font-size: 20px;
     width: 82px;
   }
+  @include desktop {
+    right: 0.8rem;
+  }
 
   &__cartlist {
     position: absolute;
@@ -205,8 +208,22 @@ code {
   }
 }
 
-@media screen and (max-width: 1200px) {
-  .cart {
-    right: 0.8rem;
+.alert {
+  position: fixed;
+  top: 5rem;
+  right: 4rem;
+  z-index: 10;
+  animation: 0.5s ease-in 0s move_alert;
+  opacity: 0.9;
+}
+
+@keyframes move_alert {
+  from {
+    top: 10rem;
+    opacity: 0.2;
+  }
+  to {
+    top: 5rem;
+    opacity: 0.9;
   }
 }

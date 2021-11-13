@@ -1,16 +1,16 @@
-export function CartlistItem(props) {
-  const {
-    orderItem = {},
-    removeCartlistItem = Function.prototype,
-    changeCatritemQuantity = Function.prototype,
-  } = props;
+import { useContext } from "react";
+import { commonContext } from "../CommonContext";
+
+export function CartlistItem({ orderItem = {} }) {
+  const { removeCartlistItem, changeCatrlistItemQuantity } =
+    useContext(commonContext);
 
   return (
     <li className="collection-item avatar cartlist__item">
       <img
         src={orderItem.displayAssets[0].url}
         alt={orderItem.displayName}
-        className="circle cartlist__item-img"
+        className="circle cartlist__item-image"
       />
       <div className="cartlist__item-info">
         <span className="title cartlist__item-title">
@@ -19,14 +19,18 @@ export function CartlistItem(props) {
       </div>
       <button
         className="cartlist__item-quantity-changer"
-        onClick={() => changeCatritemQuantity(orderItem.mainId, "decrement")}
+        onClick={() =>
+          changeCatrlistItemQuantity(orderItem.mainId, "decrement")
+        }
       >
         -
       </button>
       <span className="cartlist__item-quantity">{orderItem.quantity}</span>
       <button
         className="cartlist__item-quantity-changer"
-        onClick={() => changeCatritemQuantity(orderItem.mainId, "increment")}
+        onClick={() =>
+          changeCatrlistItemQuantity(orderItem.mainId, "increment")
+        }
       >
         +
       </button>

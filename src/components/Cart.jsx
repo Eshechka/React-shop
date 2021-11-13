@@ -1,14 +1,12 @@
 import { Cartlist } from "./Cartlist.jsx";
 
-export function Cart(props) {
-  const {
-    quantity = 0,
-    isShowCartList = false,
-    orderList = [],
-    toggleShowCart = Function.prototype,
-    removeCartlistItem = Function.prototype,
-    changeCatritemQuantity = Function.prototype,
-  } = props;
+import { useContext } from "react";
+import { commonContext } from "../CommonContext";
+
+export function Cart() {
+  const quantity = useContext(commonContext).order.length || 0;
+  const { isShowCartList = false, toggleShowCart = Function.prototype } =
+    useContext(commonContext);
   return (
     <div
       data-cart="true"
@@ -19,14 +17,8 @@ export function Cart(props) {
       {quantity !== undefined ? (
         <span className="cart__quantity white-text">{quantity}</span>
       ) : null}
-      <div className="cart__cartlist">
-        {isShowCartList ? (
-          <Cartlist
-            orderList={orderList}
-            removeCartlistItem={removeCartlistItem}
-            changeCatritemQuantity={changeCatritemQuantity}
-          />
-        ) : null}
+      <div data-cartlist="true" className="cart__cartlist">
+        {isShowCartList ? <Cartlist /> : null}
       </div>
     </div>
   );

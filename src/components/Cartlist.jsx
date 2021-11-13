@@ -1,11 +1,10 @@
 import { CartlistItem } from "./CartlistItem.jsx";
 
-export function Cartlist(props) {
-  const {
-    orderList = [],
-    removeCartlistItem = Function.prototype,
-    changeCatritemQuantity = Function.prototype,
-  } = props;
+import { useContext } from "react";
+import { commonContext } from "../CommonContext";
+
+export function Cartlist() {
+  const orderList = useContext(commonContext).order || [];
 
   function getTotalCartPrice() {
     return orderList.reduce(
@@ -18,21 +17,17 @@ export function Cartlist(props) {
     <div className="cartlist">
       <h4 className="cartlist__title">
         Cart List
-        <span data-cart-close="true" className="right">
+        <span
+          data-cart-close="true"
+          className="cartlist__close right hoverable"
+        >
           <i className="material-icons">clear</i>
         </span>
       </h4>
 
       <ul className="collection cartlist__list">
         {orderList.map((orderItem) => {
-          return (
-            <CartlistItem
-              orderItem={orderItem}
-              key={orderItem.mainId}
-              removeCartlistItem={removeCartlistItem}
-              changeCatritemQuantity={changeCatritemQuantity}
-            />
-          );
+          return <CartlistItem orderItem={orderItem} key={orderItem.mainId} />;
         })}
       </ul>
 

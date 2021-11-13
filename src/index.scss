@@ -124,14 +124,23 @@ code {
     @include tablets {
       top: unset;
       bottom: 84px;
+      width: 400px;
+    }
+    @include phones {
+      top: unset;
+      bottom: 84px;
       width: 320px;
     }
   }
 }
 
 .cartlist {
+  position: relative;
   border: 1px solid #ccc;
   cursor: auto;
+  opacity: 1;
+  width: 100%;
+  animation: 0.1s ease-in 0s show_cartlist;
 
   &__list.collection {
     max-height: 255px;
@@ -147,15 +156,29 @@ code {
       font-size: 18px;
     }
   }
+  &__close {
+    cursor: pointer;
+  }
   &__item.collection-item.avatar {
     display: flex;
     align-items: flex-start;
     padding-right: 10px;
+    @include phones {
+      padding-left: 52px;
+    }
+  }
+  &__item-image {
+    @include phones {
+      left: 5px;
+    }
   }
   &__item-info {
     display: flex;
     flex-direction: column;
     width: 170px;
+    @include phones {
+      width: 140px;
+    }
   }
   .collection .collection-item.avatar &__item-remove.secondary-content {
     align-self: flex-start;
@@ -171,6 +194,9 @@ code {
     @include tablets {
       font-size: 14px;
     }
+    @include phones {
+      font-size: 12px;
+    }
   }
   &__item-price {
     padding-right: 36px;
@@ -179,6 +205,14 @@ code {
 
     @include tablets {
       font-size: 14px;
+    }
+    @include phones {
+      font-size: 12px;
+    }
+  }
+  .collection .collection-item.avatar &__item-title.title {
+    @include phones {
+      font-size: 12px;
     }
   }
   &__total {
@@ -208,13 +242,25 @@ code {
   }
 }
 
-.alert {
+.alert.btn {
   position: fixed;
   top: 5rem;
-  right: 4rem;
+  right: 50%;
+  transform: translateX(50%);
   z-index: 10;
   animation: 0.5s ease-in 0s move_alert;
   opacity: 0.9;
+
+  @include phones {
+    font-size: 14px;
+    height: unset;
+    min-height: 30px;
+    right: unset;
+    transform: unset;
+    width: 90%;
+    line-height: 20px;
+    padding: 8px;
+  }
 }
 
 @keyframes move_alert {
@@ -225,5 +271,17 @@ code {
   to {
     top: 5rem;
     opacity: 0.9;
+  }
+}
+@keyframes show_cartlist {
+  from {
+    top: 50px;
+    opacity: 0.5;
+    width: 0%;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+    width: 100%;
   }
 }

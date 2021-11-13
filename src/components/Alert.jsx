@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 
-export function Alert(props) {
-  const { name, clearNameOfAlert = Function.prototype } = props;
+import { useContext } from "react";
+import { commonContext } from "../CommonContext";
+
+export function Alert() {
+  const { alertName = "", clearNameOfAlert = Function.prototype } =
+    useContext(commonContext);
 
   useEffect(() => {
     const timerAlert = setTimeout(() => {
@@ -10,7 +14,7 @@ export function Alert(props) {
     return () => {
       clearTimeout(timerAlert);
     };
-  }, [name]);
+  }, [alertName]);
 
-  return <a class="alert btn">{name} добавлен в корзину</a>;
+  return <a className="alert btn">{alertName} добавлен в корзину</a>;
 }

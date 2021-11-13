@@ -1,6 +1,10 @@
 import { Good } from "./Good";
 
-export function Goods({ goods = [], clickBuyGood = Function.prototype }) {
+import { useContext } from "react";
+import { commonContext } from "../CommonContext";
+
+export function Goods() {
+  const { goods } = useContext(commonContext);
   if (!goods.length) {
     return <div className="goods__list">Empty goods list...</div>;
   }
@@ -8,9 +12,7 @@ export function Goods({ goods = [], clickBuyGood = Function.prototype }) {
     <div className="goods">
       <div className="goods__list">
         {goods.map((good) => {
-          return (
-            <Good key={good.mainId} good={good} clickBuyGood={clickBuyGood} />
-          );
+          return <Good key={good.mainId} good={good} />;
         })}
       </div>
     </div>
